@@ -1,31 +1,58 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int* AlocarMemoria(int n){
-    int *array = (int *) calloc(n, sizeof(int));
-    if (array == NULL) {
+// Estrutura Pessoa
+struct Pessoa {
+    char CPF[12];
+    char nome[50];
+    float salario;
+};
+
+struct Pessoa* criarVetorPessoas(int n) {
+    struct Pessoa *vetor = (struct Pessoa *)calloc(n, sizeof(struct Pessoa));
+    if (vetor == NULL) {
         printf("Falha na alocação de memória.\n");
         exit(1);
     }
-    return array;
-} 
-void ExibirArray(int* array, int n) {
-    printf("Array: ");
+    return vetor;
+}
+
+void preencherVetorPessoas(struct Pessoa *vetor, int n) {
     for (int i = 0; i < n; i++) {
-        printf("%d ", array[i]);
+        printf("Informe o CPF da pessoa %d: ", i + 1);
+        scanf("%s", vetor[i].CPF);
+
+        printf("Informe o nome da pessoa %d: ", i + 1);
+        scanf("%s", vetor[i].nome);
+
+        printf("Informe o salário da pessoa %d: ", i + 1);
+        scanf("%f", &vetor[i].salario);
     }
-    printf("\n");
+}
+
+void imprimirVetorPessoas(const struct Pessoa *vetor, int n) {
+    printf("Vetor de Pessoas:\n");
+    for (int i = 0; i < n; i++) {
+        printf("Pessoa %d:\n", i + 1);
+        printf("CPF: %s\n", vetor[i].CPF);
+        printf("Nome: %s\n", vetor[i].nome);
+        printf("Salário: %.2f\n", vetor[i].salario);
+        printf("\n");
+    }
 }
 
 int main() {
-int *array, n;
-printf("Digite o tamanho do array: ");
-scanf("%d", &n);
+    int n;
+    printf("Digite o tamanho do vetor de Pessoas: ");
+    scanf("%d", &n);
 
-array = AlocarMemoria(n);
+    struct Pessoa *vetorPessoas = criarVetorPessoas(n);
 
-ExibirArray(array, n);
+    preencherVetorPessoas(vetorPessoas, n);
 
-free(array);
-return 0;
+    imprimirVetorPessoas(vetorPessoas, n);
+
+    free(vetorPessoas);
+
+    return 0;
 }
